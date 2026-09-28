@@ -1,0 +1,35 @@
+version: 0.1
+
+globalTimeout: 90
+testSuiteTimeout: 90
+testSuiteStep: 90
+
+runson: win
+
+autosplit: true
+retryOnFailure: true
+
+maxRetries: 1
+concurrency: 8
+
+# Dependency caching for Windows
+cacheKey: '{{ checksum "package.json" }}'
+cacheDirectories:
+  - node_modules
+
+pre:
+  - npm install
+
+
+testDiscovery:
+  type: raw
+  mode: dynamic
+  command: echo test
+
+testRunnerCommand: npx cucumber-js -p runner $test
+
+report: true
+partialReports:
+ location: test-results/reports
+ frameworkName: cucumber
+ type: json
